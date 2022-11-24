@@ -1,0 +1,22 @@
+.button_container {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button_container_item_hidden {
+  width: 300px;
+  height: 150px;
+}
+
+.button_container_item {
+  display: flex;
+  align-items: center;
+}
+
+.local_video_group {
+  display: flex;
+}

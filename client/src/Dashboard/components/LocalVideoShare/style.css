@@ -1,0 +1,13 @@
+.local_video_container_btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border-radius: 50%;
+    border: 2px dashed;
+    cursor: pointer;
+    z-index: 999;
+}

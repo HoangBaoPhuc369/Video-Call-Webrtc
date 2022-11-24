@@ -1,0 +1,18 @@
+.local_video_container {
+  width: 300px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    overflow: hidden;
+    margin-right: 15px;
+    z-index: 999;
+}
+
+.local_video_element {
+   width: 300px;
+   position: relative;
+   left: 0;
+   top: 0;
+   opacity: 1;
+}
