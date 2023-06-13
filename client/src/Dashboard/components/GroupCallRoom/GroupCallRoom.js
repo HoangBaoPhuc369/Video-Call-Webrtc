@@ -4,7 +4,7 @@ import ConversationButtons from '../ConversationButtons/ConversationButtons';
 import './GroupCallRoom.css';
 import GroupCallVideo from './GroupCallVideo';
 
-const GroupCallRoom = () => {
+const GroupCallRoom = ({roomId}) => {
   const { groupCallStreams } =
     useSelector((state) => ({ ...state.call }));
   return (
@@ -16,7 +16,7 @@ const GroupCallRoom = () => {
           })
         }
       </div>
-      <ConversationButtons groupCall />
+      <ConversationButtons roomId={roomId} />
     </div>
   );
 };

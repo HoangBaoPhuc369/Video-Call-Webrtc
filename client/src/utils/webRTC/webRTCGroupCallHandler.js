@@ -4,19 +4,29 @@ import {
   setCallState,
   setGroupCallActive,
   setGroupCallStreams,
+  setLocalScreenShareStream,
+  setScreenSharingActive,
+  setSharingStreams,
 } from "../../redux/features/callSlice";
 import { store } from "./../../app/store";
+import { setPeersIdConnection } from "../../redux/features/dashboardSlice";
 
 let myPeer;
 let myPeerId;
 let groupCallRoomId;
 let groupCallHost = false;
 
+let videoConstraints = {
+  width: { ideal: 4096 },
+  height: { ideal: 2160 },
+  frameRate: { ideal: 10, max: 15 },
+};
+
 export const connectWithMyPeer = (roomId, type) => {
   myPeer = new window.Peer(undefined, {
     path: "/peerjs",
     host: "/",
-    port: "5000",
+    port: "5001",
   });
 
   myPeer.on("open", (id) => {
@@ -59,7 +69,8 @@ export const createNewGroupCall = (roomId) => {
   store.dispatch(setCallState("CALL_IN_PROGRESS"));
 };
 
-export const joinGroupCall = (roomId) => { //hostSocketId, 
+export const joinGroupCall = (roomId) => {
+  //hostSocketId,
   groupCallRoomId = roomId;
 
   wss.userWantsToJoinGroupCall({
@@ -76,6 +87,8 @@ export const connectToNewUser = (data) => {
 
   const call = myPeer.call(data.peerId, localStream);
 
+  // store.dispatch(setPeersIdConnection(data.peerId));
+
   call.on("stream", (incomingStream) => {
     const streams = store.getState().call.groupCallStreams;
     const stream = streams.find((stream) => stream.id === incomingStream.id);
@@ -84,6 +97,47 @@ export const connectToNewUser = (data) => {
       addVideoStream(incomingStream);
     }
   });
+};
+
+// export const handleShareScreen = (data) => {
+//   const localStream = store.getState().call.localStream;
+
+//   const call = myPeer.call(data.peerId, localStream);
+
+//   call.on("stream", (incomingStream) => {
+//     const streams = store.getState().call.groupCallStreams;
+//     const stream = streams.find((stream) => stream.id === incomingStream.id);
+//     // console.log(stream);
+//     if (!stream) {
+//       addVideoStream(incomingStream);
+//     }
+//   });
+// };
+
+let screenSharingStream;
+
+export const switchForScreenSharingStream = async (roomId) => {
+  if (!store.getState().call.screenSharingActive) {
+    try {
+      screenSharingStream = await navigator.mediaDevices.getDisplayMedia({
+        video: videoConstraints,
+      });
+      store.dispatch(setScreenSharingActive(true));
+      store.dispatch(setLocalScreenShareStream(screenSharingStream));
+      // wss.groupCallSharing({
+      //   roomId: roomId,
+      //   screenSharingStream,
+      // });
+    } catch (err) {
+      console.error(
+        "error occured when trying to get screen sharing stream",
+        err
+      );
+    }
+  } else {
+    store.dispatch(setScreenSharingActive(false));
+    screenSharingStream.getTracks().forEach((track) => track.stop());
+  }
 };
 
 export const leaveGroupCall = () => {
@@ -99,6 +153,7 @@ export const leaveGroupCall = () => {
     });
   }
   clearGroupData();
+  window.close();
 };
 
 export const clearGroupData = () => {
@@ -124,10 +179,14 @@ export const removeInactiveStream = (data) => {
 const addVideoStream = (incomingStream) => {
   const groupCallStreams = [
     ...store.getState().call.groupCallStreams,
-    incomingStream
+    incomingStream,
   ];
 
   store.dispatch(setGroupCallStreams(groupCallStreams));
+};
+
+export const handleShareStream = (data) => {
+  store.dispatch(setSharingStreams(data));
 };
 
 // if group call is active return roomId if not return false

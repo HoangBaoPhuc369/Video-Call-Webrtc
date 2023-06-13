@@ -14,7 +14,8 @@
 
 .button_container_item {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  margin-bottom: 3px;
 }
 
 .local_video_group {

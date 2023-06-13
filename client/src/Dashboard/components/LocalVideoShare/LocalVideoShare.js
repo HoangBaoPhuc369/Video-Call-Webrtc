@@ -1,7 +1,10 @@
 import "./style.css";
 import { useRef, useEffect } from "react";
 
-export default function LocalVideoShare({ localScreenShareStream }) {
+export default function LocalVideoShare({
+  localScreenShareStream,
+  handleScreenSharingButtonPressed,
+}) {
   const localVideoShareRef = useRef();
 
   useEffect(() => {
@@ -15,13 +18,16 @@ export default function LocalVideoShare({ localScreenShareStream }) {
     }
   }, [localScreenShareStream]);
   return (
-    <div className="local_video_container local_video_share">
-      <button className="local_video_container_btn">Stop</button>
+    <div className="local_video_container_share local_video_share hover-video">
+      <button
+        className="local_video_container_btn"
+        onClick={handleScreenSharingButtonPressed}
+      >
+        Stop
+      </button>
       <video
         className="local_video_element"
         ref={localVideoShareRef}
-        // width="300" 
-        // height="150" 
         autoPlay
         muted
       />

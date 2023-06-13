@@ -17,6 +17,7 @@ const initialState = {
   groupCallActive: false,
   groupCallStreams: [],
   localScreenShareStream: null,
+  remoteScreenShareStream: null,
   message: {
     received: false,
     content: "",
@@ -99,6 +100,10 @@ export const callSlice = createSlice({
     setChatMessage: (state, action) => {
       state.message = action.payload;
     },
+
+    setSharingStreams: (state, action) => {
+      state.remoteScreenShareStream = action.payload;
+    },
   },
 });
 
@@ -118,6 +123,7 @@ export const {
   clearGroupCallData,
   setChatMessage,
   resetCallState,
+  setSharingStreams,
 } = callSlice.actions;
 
 export default callSlice.reducer;

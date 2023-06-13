@@ -7,7 +7,7 @@ import LoginPage from "./LoginPage/LoginPage";
 import { io } from "socket.io-client";
 
 function App() {
-  const SERVER = "http://localhost:5000";
+  const SERVER = "http://localhost:5001";
 
   const [socket, setSocket] = useState(null);
 
@@ -25,8 +25,6 @@ function App() {
   }, [setSocket]);
 
   useEffect(() => {
-   
-
     // eslint-disable-next-line
   }, []);
 

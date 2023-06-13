@@ -17,7 +17,7 @@ const LocalVideoView = props => {
   }, [localStream]);
 
   return (
-    <div  className='local_video_container background_secondary_color'>
+    <div  className='local_video_container hover-video'>
       <video  className='local_video_element' ref={localVideoRef} autoPlay muted />
     </div>
   );

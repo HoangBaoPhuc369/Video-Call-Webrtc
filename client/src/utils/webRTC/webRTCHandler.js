@@ -10,7 +10,6 @@ import {
   setRemoteStream,
   setScreenSharingActive,
 } from "../../redux/features/callSlice";
-// import { setLocalStream, setCallState, callStates, setCallingDialogVisible, setCallerUsername, setCallRejected, setRemoteStream, setScreenSharingActive, resetCallDataState, setMessage } from '../../store/actions/callActions';
 import * as wss from "../wssConnection/wssConnection";
 import { store } from "./../../app/store";
 
@@ -23,7 +22,7 @@ const preOfferAnswers = {
 let videoConstraints = {
   width: { ideal: 4096 },
   height: { ideal: 2160 },
-  frameRate: { max: 60 },
+  frameRate: {ideal: 10, max: 15},
 };
 
 let audioConstraints = {
@@ -240,12 +239,12 @@ export const switchForScreenSharingStream = async () => {
       });
       store.dispatch(setScreenSharingActive(true));
       store.dispatch(setLocalScreenShareStream(screenSharingStream));
-      const senders = peerConnection.getSenders();
-      const sender = senders.find(
-        (sender) =>
-          sender.track.kind === screenSharingStream.getVideoTracks()[0].kind
-      );
-      sender.replaceTrack(screenSharingStream.getVideoTracks()[0]);
+      // const senders = peerConnection.getSenders();
+      // const sender = senders.find(
+      //   (sender) =>
+      //     sender.track.kind === screenSharingStream.getVideoTracks()[0].kind
+      // );
+      // sender.replaceTrack(screenSharingStream.getVideoTracks()[0]);
     } catch (err) {
       console.error(
         "error occured when trying to get screen sharing stream",
@@ -253,12 +252,6 @@ export const switchForScreenSharingStream = async () => {
       );
     }
   } else {
-    const localStream = store.getState().call.localStream;
-    const senders = peerConnection.getSenders();
-    const sender = senders.find(
-      (sender) => sender.track.kind === localStream.getVideoTracks()[0].kind
-    );
-    sender.replaceTrack(localStream.getVideoTracks()[0]);
     store.dispatch(setScreenSharingActive(false));
     screenSharingStream.getTracks().forEach((track) => track.stop());
   }

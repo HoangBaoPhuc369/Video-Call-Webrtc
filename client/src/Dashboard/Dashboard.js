@@ -24,7 +24,7 @@ const Dashboard = ({ socket }) => {
   let paramaters = new URL(url).searchParams;
   var roomId = paramaters.get("roomId");
   var name = paramaters.get("username");
-  var picture = paramaters.get("userPicture");
+  // var picture = paramaters.get("userPicture");
   var type = paramaters.get("type");
 
   useEffect(() => {
@@ -52,29 +52,30 @@ const Dashboard = ({ socket }) => {
   }, []);
 
   return (
-    <div className="dashboard_container background_main_color">
-      <div className="dashboard_content_container">
-        <DirectCall />
-        <GroupCall />
-        {callState !== "CALL_IN_PROGRESS" && (
-          <DashboardInformation username={username} />
-        )}
-      </div>
-      {/* <div className="dashboard_left_section"> */}
-
-      {/* <div className="dashboard_rooms_container background_secondary_color">
-          <GroupCallRoomsList />
+    <>
+      <div className="dashboard_container background_main_color">
+        <div className="dashboard_content_container">
+          <DirectCall />
+          <GroupCall roomId={roomId} />
+          {callState !== "CALL_IN_PROGRESS" && (
+            <DashboardInformation username={username} />
+          )}
+        </div>
+        {/* <div className="dashboard_left_section">
+          <div className="dashboard_rooms_container background_secondary_color">
+            <GroupCallRoomsList />
+          </div>
+        </div>
+        <div className="dashboard_right_section background_secondary_color">
+          <div className="dashboard_active_users_list">
+            <ActiveUsersList />
+          </div>
+          <div className="dashboard_logo_container">
+            <img className="dashboard_logo_image" src={logo} alt="logo" />
+          </div>
         </div> */}
-      {/* </div> */}
-      {/* <div className="dashboard_right_section background_secondary_color">
-        <div className="dashboard_active_users_list">
-          <ActiveUsersList />
-        </div>
-        <div className="dashboard_logo_container">
-          <img className="dashboard_logo_image" src={logo} alt="logo" />
-        </div>
-      </div> */}
-    </div>
+      </div>
+    </>
   );
 };
 

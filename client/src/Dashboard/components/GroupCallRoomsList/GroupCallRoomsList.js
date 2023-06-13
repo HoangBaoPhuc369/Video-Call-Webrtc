@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './GroupCallRoomsList.css';
 import { useSelector } from 'react-redux';
 
-const GroupCallRoomsList = (props) => {
+const GroupCallRoomsList = () => {
   // const { groupCallRooms } = props;
   const { groupCallRooms } = useSelector((state) => ({ ...state.dashboard }));
   return (
@@ -13,11 +13,5 @@ const GroupCallRoomsList = (props) => {
     </>
   );
 };
-
-// const mapStoreStateToProps = ({ dashboard }) => (
-//   {
-//     ...dashboard
-//   }
-// );
 
 export default (GroupCallRoomsList);
